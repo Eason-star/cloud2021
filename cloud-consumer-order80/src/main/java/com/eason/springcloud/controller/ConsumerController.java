@@ -3,6 +3,7 @@ package com.eason.springcloud.controller;
 import com.eason.springcloud.po.CommonResult;
 import com.eason.springcloud.po.Payment;
 import com.netflix.loadbalancer.RandomRule;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -11,12 +12,12 @@ import javax.annotation.Resource;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/consumer")
+//@RequestMapping("/consumer")
 public class ConsumerController {
 
     public final String url="http://cloud-payment-service/payment";
     public final String ctj="http://localhost:19090/restapi/4a/user";
-    @Resource
+    @Autowired
     private RestTemplate restTemplate;
 
     @GetMapping("/insert")
@@ -51,5 +52,10 @@ public class ConsumerController {
         return restTemplate.getForObject(ctj+"/page/users/"+tenantId+"/"+orgTypeId+"/"
                         +orgId+"/"+orgId+"/"+page+"/"+rows,
                 CommonResult.class,tenantId,orgTypeId,orgId,page,rows);
+    }
+    @GetMapping("/consumer/payment/zipkin")
+    public String paymentZipkin() {
+        String result = restTemplate.getForObject("http://localhost:8001"+"/payment/zipkin", String.class);
+        return result;
     }
 }

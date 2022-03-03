@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@RequestMapping("/payment")
+//@RequestMapping("/payment")
 public class PaymentController {
     @Resource
     private PaymentService paymentService;
@@ -69,5 +69,11 @@ public class PaymentController {
     @GetMapping(value="/port")
     public String getServerPort(){
         return serverPort;
+    }
+    @GetMapping("/payment/zipkin")
+    public String paymentZipkin() {
+        return "hi ,i'am paymentzipkin " +
+                "server fall back，welcome to atguigu，" +
+                "O(∩_∩)O哈哈~";
     }
 }
